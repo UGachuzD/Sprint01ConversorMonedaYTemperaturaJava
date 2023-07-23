@@ -1,9 +1,10 @@
 package Views;
 
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import static Views.Menu.cantidad;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -14,6 +15,9 @@ public class ConversorTemperatura extends javax.swing.JFrame {
     /**
      * Creates new form ConversorTemperatura
      */
+    private static StringBuilder resultado = new StringBuilder();
+    private static String tituloTipoConversion = "";
+
     public ConversorTemperatura() {
         initComponents();
         setLocationRelativeTo(null);
@@ -31,6 +35,8 @@ public class ConversorTemperatura extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jCBxOpcionesTemperatura = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -48,6 +54,17 @@ public class ConversorTemperatura extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jButton1.setText("Regresar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jButton2.setText("Menú");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -58,6 +75,12 @@ public class ConversorTemperatura extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jCBxOpcionesTemperatura, 0, 332, Short.MAX_VALUE))
                 .addGap(35, 35, 35))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(66, 66, 66)
+                .addComponent(jButton1)
+                .addGap(103, 103, 103))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -66,7 +89,11 @@ public class ConversorTemperatura extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(28, 28, 28)
                 .addComponent(jCBxOpcionesTemperatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addContainerGap(9, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -88,14 +115,195 @@ public class ConversorTemperatura extends javax.swing.JFrame {
         int opcion = jCBxOpcionesTemperatura.getSelectedIndex();
         switch (opcion) {
             case 0 -> {
+                // °C -> °F
                 try {
-                    
+                    URL url = new URL("http://localhost:8080/celciusToFahrenheit/" + cantidad);
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    con.setRequestMethod("GET");
+                    int responsecode = con.getResponseCode();
+                    if (responsecode != 200) {
+                        System.out.println("Error" + responsecode);
+                    } else {
+                        Scanner sc = new Scanner(url.openStream());
+                        while (sc.hasNext()) {
+                            resultado.append(sc.nextLine());
+                        }
+                        sc.close();
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                tituloTipoConversion = jCBxOpcionesTemperatura.getItemAt(opcion);
+                JOptionPane.showMessageDialog(null, cantidad + "°C son "+ resultado + "°F", "Resultado: " + tituloTipoConversion, JOptionPane.INFORMATION_MESSAGE);
+            }
+
+            case 1 -> {
+                // °C a Kelvin
+                try {
+                    URL url = new URL("http://localhost:8080/celciusToKelvin/" + cantidad);
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    con.setRequestMethod("GET");
+                    int responsecode = con.getResponseCode();
+                    if (responsecode != 200) {
+                        System.out.println("Error" + responsecode);
+                    } else {
+                        Scanner sc = new Scanner(url.openStream());
+                        while (sc.hasNext()) {
+                            resultado.append(sc.nextLine());
+                        }
+                        sc.close();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                tituloTipoConversion = jCBxOpcionesTemperatura.getItemAt(opcion);
+                JOptionPane.showMessageDialog(null, cantidad + "°C son "+ resultado + " Kelvin", "Resultado: " + tituloTipoConversion, JOptionPane.INFORMATION_MESSAGE);
+            }
+
+            case 2 -> {
+                // °C a Newton
+                try {
+                    URL url = new URL("http://localhost:8080/celciusToNewton/" + cantidad);
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    con.setRequestMethod("GET");
+                    int responsecode = con.getResponseCode();
+                    if (responsecode != 200) {
+                        System.out.println("Error" + responsecode);
+                    } else {
+                        Scanner sc = new Scanner(url.openStream());
+                        while (sc.hasNext()) {
+                            resultado.append(sc.nextLine());
+                        }
+                        sc.close();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                tituloTipoConversion = jCBxOpcionesTemperatura.getItemAt(opcion);
+                JOptionPane.showMessageDialog(null, cantidad + "°C son "+ resultado + " Newton", "Resultado: " + tituloTipoConversion, JOptionPane.INFORMATION_MESSAGE);
+            }
+
+            case 3 -> {
+                // °C a Rankine
+                try {
+                    URL url = new URL("http://localhost:8080/celciusToRankine/" + cantidad);
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    con.setRequestMethod("GET");
+                    int responsecode = con.getResponseCode();
+                    if (responsecode != 200) {
+                        System.out.println("Error" + responsecode);
+                    } else {
+                        Scanner sc = new Scanner(url.openStream());
+                        while (sc.hasNext()) {
+                            resultado.append(sc.nextLine());
+                        }
+                        sc.close();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                tituloTipoConversion = jCBxOpcionesTemperatura.getItemAt(opcion);
+                JOptionPane.showMessageDialog(null, cantidad + "°C son "+ resultado + " Rankine", "Resultado: " + tituloTipoConversion, JOptionPane.INFORMATION_MESSAGE);
+            }
+            
+            case 4 -> {
+                // Fahrenheit a °C
+                try {
+                    URL url = new URL("http://localhost:8080/fahrenheitToCelsius/" + cantidad);
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    con.setRequestMethod("GET");
+                    int responsecode = con.getResponseCode();
+                    if (responsecode != 200) {
+                        System.out.println("Error" + responsecode);
+                    } else {
+                        Scanner sc = new Scanner(url.openStream());
+                        while (sc.hasNext()) {
+                            resultado.append(sc.nextLine());
+                        }
+                        sc.close();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                tituloTipoConversion = jCBxOpcionesTemperatura.getItemAt(opcion);
+                JOptionPane.showMessageDialog(null, cantidad + " Fahrenheit son "+ resultado + "°C", "Resultado: " + tituloTipoConversion, JOptionPane.INFORMATION_MESSAGE);
+            }
+            
+            case 5 -> {
+                // Kelvin a °C
+                try {
+                    URL url = new URL("http://localhost:8080/kelvinToCelsius/" + cantidad);
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    con.setRequestMethod("GET");
+                    int responsecode = con.getResponseCode();
+                    if (responsecode != 200) {
+                        System.out.println("Error" + responsecode);
+                    } else {
+                        Scanner sc = new Scanner(url.openStream());
+                        while (sc.hasNext()) {
+                            resultado.append(sc.nextLine());
+                        }
+                        sc.close();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                tituloTipoConversion = jCBxOpcionesTemperatura.getItemAt(opcion);
+                JOptionPane.showMessageDialog(null, cantidad + " Kelvin son "+ resultado + "°C", "Resultado: " + tituloTipoConversion, JOptionPane.INFORMATION_MESSAGE);
+            }
+            
+            case 6 -> {
+                // Newton a °C
+                try {
+                    URL url = new URL("http://localhost:8080/newtonToCelsius/" + cantidad);
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    con.setRequestMethod("GET");
+                    int responsecode = con.getResponseCode();
+                    if (responsecode != 200) {
+                        System.out.println("Error" + responsecode);
+                    } else {
+                        Scanner sc = new Scanner(url.openStream());
+                        while (sc.hasNext()) {
+                            resultado.append(sc.nextLine());
+                        }
+                        sc.close();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                tituloTipoConversion = jCBxOpcionesTemperatura.getItemAt(opcion);
+                JOptionPane.showMessageDialog(null, cantidad + " Newton son "+ resultado + "°C", "Resultado: " + tituloTipoConversion, JOptionPane.INFORMATION_MESSAGE);
+            }
+            
+            case 7 -> {
+                // Rankine a °C
+                try {
+                    URL url = new URL("http://localhost:8080/rankineToCelsius/" + cantidad);
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    con.setRequestMethod("GET");
+                    int responsecode = con.getResponseCode();
+                    if (responsecode != 200) {
+                        System.out.println("Error" + responsecode);
+                    } else {
+                        Scanner sc = new Scanner(url.openStream());
+                        while (sc.hasNext()) {
+                            resultado.append(sc.nextLine());
+                        }
+                        sc.close();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                tituloTipoConversion = jCBxOpcionesTemperatura.getItemAt(opcion);
+                JOptionPane.showMessageDialog(null, cantidad + " Rankine son "+ resultado + "°C", "Resultado: " + tituloTipoConversion, JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }//GEN-LAST:event_jCBxOpcionesTemperaturaActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -133,6 +341,8 @@ public class ConversorTemperatura extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jCBxOpcionesTemperatura;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;

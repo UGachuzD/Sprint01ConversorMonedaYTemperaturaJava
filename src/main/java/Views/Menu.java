@@ -104,7 +104,7 @@ public class Menu extends JFrame {
             case 1 -> {
                 // Convertir temperatura
                 this.setVisible(false);
-                cantidad = JOptionPane.showInputDialog("Ingrese la cantidad de °C que desea convertir: ");
+                cantidad = JOptionPane.showInputDialog("Ingrese la cantidad que desea convertir: ");
                 System.out.println("Mensaje:" + cantidad);
                 if (cantidad == null || cantidad.trim().isEmpty()) {
                     this.setVisible(true);
